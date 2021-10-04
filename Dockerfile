@@ -26,6 +26,8 @@ COPY supervisord.conf /
 
 ENV NEXTCLOUD_DATA_DIR /var/www/nextcloud/data
 RUN ["touch", "data/.ocdata"]
+COPY core/Command/Maintenance/UpdateProtectDataDirectory.php core/Command/Maintenance/
+RUN echo '$application->add(new OC\Core\Command\Maintenance\UpdateProtectDataDirectory());' >> core/register_command.php
 
-ENTRYPOINT []
+COPY entrypoint.sh /
 CMD ["supervisord", "-c", "/supervisord.conf"]
